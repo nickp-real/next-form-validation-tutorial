@@ -1,3 +1,5 @@
+This project is a form management tutorial project by [ProNextJS](https://www.pronextjs.dev/tutorials/forms-management-with-next-js-app-router)
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
