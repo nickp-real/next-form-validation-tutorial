@@ -23,7 +23,7 @@ export default function Home() {
     "use server";
 
     const data = Object.fromEntries(formData);
-    const parsed = schema.safeParse(data);
+    const parsed = await schema.safeParseAsync(data);
 
     console.log(data);
     if (!parsed.success)
