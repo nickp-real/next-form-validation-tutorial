@@ -14,14 +14,23 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useFormState } from "react-dom";
+import { useRef } from "react";
 
 export const RegistrationForm = ({
   onDataAction,
+  onFormAction,
 }: {
   onDataAction: (
     data: Schema,
   ) => Promise<{ message: string; user?: Schema; issues?: string[] }>;
+  onFormAction: (
+    prevState: { message: string; user?: Schema; issues?: string[] },
+    formData: FormData,
+  ) => Promise<{ message: string; user?: Schema; issues?: string[] }>;
 }) => {
+  const [state, formAction] = useFormState(onFormAction, { message: "" });
+
   const form = useForm<Schema>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -54,13 +63,28 @@ export const RegistrationForm = ({
     //     .then((response) => response.json())
     //     .then(console.log);
 
-    console.log(await onDataAction(data));
+    // console.log(await onDataAction(data));
 
+    // send as formdata;
+    // const formData = new FormData();
+    // formData.append("first", data.first);
+    // formData.append("last", data.last);
+    // formData.append("email", data.email);
+    //
+    // console.log(await onFormAction(formData));
   };
+
+  const formRef = useRef<HTMLFormElement>(null);
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      {state.message && <div>{state.message}</div>}
+      <form
+        ref={formRef}
+        action={formAction}
+        onSubmit={form.handleSubmit(() => formRef.current?.submit())}
+        className="space-y-8"
+      >
         <div className="flex gap-2">
           <FormField
             control={form.control}
