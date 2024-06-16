@@ -15,7 +15,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-export const RegistrationForm = () => {
+export const RegistrationForm = ({
+  onDataAction,
+}: {
+  onDataAction: (
+    data: Schema,
+  ) => Promise<{ message: string; user?: Schema; issues?: string[] }>;
+}) => {
   const form = useForm<Schema>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -36,17 +42,20 @@ export const RegistrationForm = () => {
     //   .then(console.log);
 
     // send as formdata
-    const formData = new FormData();
-    formData.append("first", data.first);
-    formData.append("last", data.last);
-    formData.append("email", data.email);
+    // const formData = new FormData();
+    // formData.append("first", data.first);
+    // formData.append("last", data.last);
+    // formData.append("email", data.email);
 
-    fetch("/api/registerForm", {
-      method: "POST",
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then(console.log);
+    //   fetch("/api/registerForm", {
+    //     method: "POST",
+    //     body: formData,
+    //   })
+    //     .then((response) => response.json())
+    //     .then(console.log);
+
+    console.log(await onDataAction(data));
+
   };
 
   return (
